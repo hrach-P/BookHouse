@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHouse | Your Digital Library</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="confetti" aria-hidden="true"></canvas>
+
+    <header class="header">
+        <a href="#home" class="logo">Book<span>House.</span></a>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#library">Library</a>
+            <a href="#about">How it works</a>
+        </nav>
+
+        <div class="xp-pill" title="Borrow and return books to earn XP!">
+            <span class="xp-emoji" id="levelEmoji">🌱</span>
+            <div class="xp-info">
+                <span class="xp-level" id="levelName">Newcomer</span>
+                <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+            </div>
+            <span class="xp-text" id="xpText">0 / 100 XP</span>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="eyebrow">WELCOME TO BOOKHOUSE</p>
+            <h1>Read more.<br><span>Scroll less.</span></h1>
+
+            <p class="hero-description">
+                Pick a book. Answer 4 quick questions.
+                Start reading. That's it. ⚡
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#library" class="main-button">Discover Books</a>
+                <button type="button" class="ghost-button surprise-btn">🎲 Surprise Me</button>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="hero-book">
+                <p>BOOKHOUSE COLLECTION</p>
+                <h2>Stories<br>Never<br>End.</h2>
+                <span>EST. 2026</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <span class="stat-icon">📚</span>
+            <h2 id="totalBooks">0</h2>
+            <p>Total Books</p>
+        </div>
+
+        <div class="stat">
+            <span class="stat-icon">✅</span>
+            <h2 id="availableBooks">0</h2>
+            <p>Available</p>
+        </div>
+
+        <div class="stat">
+            <span class="stat-icon">🔥</span>
+            <h2 id="borrowedBooks">0</h2>
+            <p>Borrowed</p>
+        </div>
+    </section>
+
+    <main class="library" id="library">
+        <div class="section-heading">
+            <p class="eyebrow">EXPLORE OUR COLLECTION</p>
+            <h2>Find Your Next Read.</h2>
+            <p>Books for every mind and every mood.</p>
+        </div>
+
+        <div class="search-container">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔎 Search books or authors..."
+                autocomplete="off"
+            >
+            <button type="button" class="surprise-btn surprise-small" aria-label="Surprise me with a random book">🎲</button>
+        </div>
+
+        <div class="categories">
+            <button class="category active" data-category="All">📚 All</button>
+            <button class="category" data-category="Fantasy">🧙 Fantasy</button>
+            <button class="category" data-category="Fiction">🎭 Fiction</button>
+            <button class="category" data-category="Mystery">🔍 Mystery</button>
+            <button class="category" data-category="Science">🚀 Science</button>
+        </div>
+
+        <div class="book-grid" id="bookGrid"></div>
+
+        <p class="empty-message" id="emptyMessage">
+            😅 No books found. Try another search.
+        </p>
+    </main>
+
+    <!-- BOOK DETAILS POPUP -->
+    <div class="modal-overlay" id="bookModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+
+            <div class="modal-book-image">
+                <img id="modalImage" src="" alt="Book cover">
+            </div>
+
+            <div class="modal-book-info">
+                <p class="eyebrow" id="modalCategory">CATEGORY</p>
+                <h2 id="modalTitle">Book Title</h2>
+                <p class="modal-author" id="modalAuthor">Author</p>
+                <div class="modal-divider"></div>
+                <h3>About this book</h3>
+                <p class="modal-description" id="modalDescription"></p>
+                <button class="borrow-btn modal-borrow" id="modalBorrow">
+                    Borrow Book
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BORROW WIZARD POPUP -->
+    <div class="modal-overlay" id="borrowModal">
+        <div class="wizard" role="dialog" aria-modal="true" aria-labelledby="wizardBookTitle">
+            <button class="modal-close" id="closeBorrow" aria-label="Close">&times;</button>
+
+            <div class="wizard-top" id="wizardTop">
+                <p class="wizard-book">Borrowing: <strong id="wizardBookTitle">Book</strong></p>
+                <div class="wizard-progress">
+                    <div class="wizard-progress-bar" id="progressBar"></div>
+                </div>
+                <p class="wizard-step-label" id="stepLabel">Step 1 of 4</p>
+            </div>
+
+            <form id="borrowForm" novalidate>
+                <div class="step active" data-step="1">
+                    <div class="step-emoji">👋</div>
+                    <h2>What's your name?</h2>
+                    <input class="field" id="fieldName" type="text" maxlength="40"
+                           placeholder="Your name" autocomplete="name">
+                    <p class="field-error" role="alert"></p>
+                </div>
+
+                <div class="step" data-step="2">
+                    <div class="step-emoji">🪪</div>
+                    <h2 id="step2Title">Your student ID?</h2>
+                    <input class="field" id="fieldId" type="text" maxlength="15"
+                           placeholder="e.g. 20260123" autocomplete="off">
+                    <p class="field-error" role="alert"></p>
+                </div>
+
+                <div class="step" data-step="3">
+                    <div class="step-emoji">📬</div>
+                    <h2>How can we reach you?</h2>
+                    <input class="field" id="fieldContact" type="text" maxlength="60"
+                           placeholder="Email or phone number" autocomplete="email">
+                    <p class="field-error" role="alert"></p>
+                </div>
+
+                <div class="step" data-step="4">
+                    <div class="step-emoji">📅</div>
+                    <h2>When will you return it?</h2>
+                    <div class="chips">
+                        <button type="button" class="chip" data-days="3">3 days</button>
+                        <button type="button" class="chip" data-days="7">1 week</button>
+                        <button type="button" class="chip" data-days="14">2 weeks</button>
+                    </div>
+                    <input class="field" id="fieldDate" type="date">
+                    <p class="field-error" role="alert"></p>
+                </div>
+
+                <div class="wizard-actions">
+                    <button type="button" class="btn-ghost" id="backBtn">← Back</button>
+                    <button type="submit" class="btn-primary" id="nextBtn">Next →</button>
+                </div>
+            </form>
+
+            <div class="success" id="successScreen" hidden>
+                <div class="success-emoji">🎉</div>
+                <h2>Book reserved!</h2>
+                <p class="success-book" id="successBook"></p>
+                <p class="success-due" id="successDue"></p>
+                <p class="success-xp" id="successXp"></p>
+                <p class="success-level" id="successLevel" hidden></p>
+                <button type="button" class="btn-primary" id="doneBtn">Keep exploring →</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="about" id="about">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>Borrowing in 3 quick steps.</h2>
+
+        <div class="steps-row">
+            <div class="how-card">
+                <span class="how-number">1</span>
+                <h3>📖 Pick a book</h3>
+                <p>Search, filter or hit Surprise Me.</p>
+            </div>
+            <div class="how-card">
+                <span class="how-number">2</span>
+                <h3>✍️ Answer 4 questions</h3>
+                <p>One tiny question at a time.</p>
+            </div>
+            <div class="how-card">
+                <span class="how-number">3</span>
+                <h3>⚡ Earn XP</h3>
+                <p>Level up from Newcomer to Librarian.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <a href="#home" class="logo">Book<span>House.</span></a>
+        <p>Your next chapter starts here.</p>
+        <p class="copyright">© 2026 BookHouse. All rights reserved.</p>
+    </footer>
+
+    <div class="toast-root" id="toastRoot" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
