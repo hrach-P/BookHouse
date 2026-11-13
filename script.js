@@ -259,7 +259,7 @@ const books = [
 
 /* =========================================================
    STORAGE (saved in this browser only)
-   ========================================================= */
+========================================================= */
 
 const KEYS = {
     loans: "bookhouseLoans",
@@ -268,16 +268,19 @@ const KEYS = {
 };
 
 const XP_BORROW = 50;
+const BASE_BORROW_PRICE = 1000;
 const XP_RETURN = 10;
 const MAX_LOAN_DAYS = 30;
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
+const LATE_RETURN_PENALTY = 25;
+const DEMO_CARD_NUMBER = "4242424242424242";
 
 const LEVELS = [
-    { name: "Newcomer", emoji: "🌱", min: 0 },
-    { name: "Bookworm", emoji: "🐛", min: 100 },
-    { name: "Page Turner", emoji: "📖", min: 250 },
-    { name: "Bibliophile", emoji: "🦉", min: 500 },
-    { name: "Librarian", emoji: "👑", min: 1000 }
+    { name: "Newcomer", emoji: "🌱", min: 0, discount: 0 },
+    { name: "Bookworm", emoji: "🐛", min: 100, discount: 5 },
+    { name: "Page Turner", emoji: "📖", min: 250, discount: 10 },
+    { name: "Bibliophile", emoji: "🦉", min: 500, discount: 15 },
+    { name: "Librarian", emoji: "👑", min: 1000, discount: 20 }
 ];
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -345,7 +348,17 @@ function cleanLoans(raw) {
             studentId: String(loan.studentId || "").slice(0, 15),
             contact: String(loan.contact || "").slice(0, 60),
             borrowedAt: ISO_PATTERN.test(loan.borrowedAt) ? loan.borrowedAt : today,
-            dueDate: ISO_PATTERN.test(loan.dueDate) ? loan.dueDate : today
+            dueDate: ISO_PATTERN.test(loan.dueDate) ? loan.dueDate : today,
+            dueAt: Number.isFinite(Number(loan.dueAt)) && Number(loan.dueAt) > 0
+                ? Number(loan.dueAt)
+                : new Date((ISO_PATTERN.test(loan.dueDate) ? loan.dueDate : today) + "T23:59:59").getTime(),
+            discountPercent: Math.max(0, Math.min(100, Number(loan.discountPercent) || 0)),
+            basePrice: Number.isFinite(Number(loan.basePrice)) ? Number(loan.basePrice) : BASE_BORROW_PRICE,
+            amountSaved: Math.max(0, Number(loan.amountSaved) || 0),
+            finalPrice: Number.isFinite(Number(loan.finalPrice))
+                ? Number(loan.finalPrice)
+                : BASE_BORROW_PRICE - Math.round(BASE_BORROW_PRICE * (Number(loan.discountPercent) || 0) / 100),
+            membershipLevel: String(loan.membershipLevel || "Newcomer")
         };
     });
 
@@ -354,8 +367,8 @@ function cleanLoans(raw) {
 
 let loans = cleanLoans(readStorage(KEYS.loans, {}));
 let xp = Math.max(0, Number(readStorage(KEYS.xp, 0)) || 0);
-
 let profile = readStorage(KEYS.profile, {});
+
 if (!profile || typeof profile !== "object") profile = {};
 
 let selectedCategory = "All";
@@ -371,7 +384,7 @@ function borrowedCount() {
 
 /* =========================================================
    DOM
-   ========================================================= */
+========================================================= */
 
 const el = id => document.getElementById(id);
 
@@ -385,13 +398,17 @@ const fieldName = el("fieldName");
 const fieldId = el("fieldId");
 const fieldContact = el("fieldContact");
 const fieldDate = el("fieldDate");
+const fieldCardNumber = el("fieldCardNumber");
+const fieldCardExpiry = el("fieldCardExpiry");
+const fieldCardCvv = el("fieldCardCvv");
 
+let selectedDueAt = null;
 let wizardBook = null;
 let wizardStep = 1;
 
 /* =========================================================
    XP + LEVELS
-   ========================================================= */
+========================================================= */
 
 function getLevelIndex(points) {
     let index = 0;
@@ -419,28 +436,62 @@ function updateXpPill() {
         el("xpFill").style.width = "100%";
         el("xpText").textContent = `${xp} XP · MAX`;
     }
+
+    const xpPill = document.querySelector(".xp-pill");
+    if (xpPill) xpPill.title = `${level.name}: ${level.discount}% borrowing discount`;
+}
+
+function currentDiscount() {
+    return LEVELS[getLevelIndex(xp)].discount;
+}
+
+function renderBorrowPrice() {
+    const index = getLevelIndex(xp);
+    const level = LEVELS[index];
+    const savings = Math.round(BASE_BORROW_PRICE * level.discount / 100);
+    const finalPrice = BASE_BORROW_PRICE - savings;
+
+    el("borrowDiscount").textContent = `${level.emoji} ${level.name} discount: ${level.discount}%`;
+    el("basePrice").textContent = `${BASE_BORROW_PRICE.toLocaleString("en-US")} AMD`;
+    el("priceDiscountLabel").textContent = `Your discount (${level.discount}%)`;
+    el("priceSavings").textContent = `−${savings.toLocaleString("en-US")} AMD`;
+    el("finalPrice").textContent = `${finalPrice.toLocaleString("en-US")} AMD`;
+
+    el("levelDiscountList").innerHTML = LEVELS.map((item, i) => `
+        <div class="level-discount-row ${i === index ? "current" : ""}">
+            <span>${item.emoji} ${item.name}${i === index ? " · Current" : ""}</span>
+            <strong>${item.discount}% off</strong>
+        </div>
+    `).join("");
+
+    return {
+        discountPercent: level.discount,
+        savings,
+        finalPrice,
+        levelName: level.name
+    };
 }
 
 function addXp(amount) {
     const before = getLevelIndex(xp);
 
-    xp += amount;
+    xp = Math.max(0, xp + amount);
     writeStorage(KEYS.xp, xp);
     updateXpPill();
 
     const after = getLevelIndex(xp);
-
     return after > before ? LEVELS[after] : null;
 }
 
 /* =========================================================
    SMALL UI HELPERS
-   ========================================================= */
+========================================================= */
 
 function showToast(message) {
     const toast = document.createElement("div");
     toast.className = "toast";
     toast.textContent = message;
+
     el("toastRoot").appendChild(toast);
 
     setTimeout(() => {
@@ -481,6 +532,7 @@ function syncScrollLock() {
 
 const confettiCanvas = el("confetti");
 const confettiCtx = confettiCanvas.getContext("2d");
+
 let confettiPieces = [];
 let confettiRunning = false;
 
@@ -545,7 +597,7 @@ function confettiFrame() {
 
 /* =========================================================
    BOOK GRID
-   ========================================================= */
+========================================================= */
 
 function getCover(book) {
     return `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`;
@@ -553,11 +605,7 @@ function getCover(book) {
 
 function displayBooks(animate = true) {
     const grid = el("bookGrid");
-
-    const search = el("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
+    const search = el("searchInput").value.toLowerCase().trim();
 
     grid.innerHTML = "";
 
@@ -595,13 +643,11 @@ function displayBooks(animate = true) {
                     loading="lazy"
                 >
             </div>
-
             <div class="book-info">
                 <h3>${book.title}</h3>
                 <p class="author">By ${book.author}</p>
                 <p class="book-category">${book.category}</p>
                 ${borrowedNow ? `<p class="due">⏰ Due ${formatDate(loan.dueDate)}</p>` : ""}
-
                 <button class="borrow-btn ${borrowedNow ? "return" : ""}">
                     ${borrowedNow ? "Return Book" : "Borrow Book"}
                 </button>
@@ -653,11 +699,10 @@ function updateStats() {
 
 /* =========================================================
    BOOK DETAILS POPUP
-   ========================================================= */
+========================================================= */
 
 function openBookDetails(id) {
     selectedBook = books.find(book => book.id === id);
-
     if (!selectedBook) return;
 
     const modalImage = el("modalImage");
@@ -699,7 +744,7 @@ function updateModalButton() {
 
 /* =========================================================
    RETURN A BOOK
-   ========================================================= */
+========================================================= */
 
 function returnBook(id) {
     const loan = loans[id];
@@ -707,7 +752,10 @@ function returnBook(id) {
 
     if (!loan || !book) return;
 
-    const onTime = loan.dueDate >= toISO(new Date());
+    const onTime = Date.now() <= (
+        Number(loan.dueAt) ||
+        new Date(loan.dueDate + "T23:59:59").getTime()
+    );
 
     delete loans[id];
     writeStorage(KEYS.loans, loans);
@@ -722,6 +770,16 @@ function returnBook(id) {
             message += ` · Level up: ${levelUp.name} ${levelUp.emoji}`;
             launchConfetti();
         }
+    } else {
+        const previousLevel = getLevelIndex(xp);
+
+        addXp(-LATE_RETURN_PENALTY);
+
+        message = `⏰ Late return: -${LATE_RETURN_PENALTY} XP`;
+
+        if (getLevelIndex(xp) < previousLevel) {
+            message += " · Your level decreased";
+        }
     }
 
     showToast(message);
@@ -730,27 +788,42 @@ function returnBook(id) {
 }
 
 /* =========================================================
-   BORROW WIZARD (4 small steps)
-   ========================================================= */
+   BORROW WIZARD (5 small steps)
+========================================================= */
 
 function setReturnDays(days) {
+    selectedDueAt = null;
     fieldDate.value = toISO(addDays(new Date(), days));
     syncChips();
 }
 
-function syncChips() {
-    const today = new Date();
+function setReturnSeconds(seconds) {
+    selectedDueAt = -seconds;
+    fieldDate.value = toISO(new Date());
+    syncChips();
+}
 
+function syncChips() {
     chips.forEach(chip => {
-        const target = toISO(addDays(today, Number(chip.dataset.days)));
-        chip.classList.toggle("active", fieldDate.value === target);
+        const isTestChoice = chip.dataset.seconds && selectedDueAt !== null;
+
+        const target = chip.dataset.days
+            ? toISO(addDays(new Date(), Number(chip.dataset.days)))
+            : null;
+
+        chip.classList.toggle(
+            "active",
+            Boolean(isTestChoice || (!selectedDueAt && target && fieldDate.value === target))
+        );
     });
 }
 
 function clearErrors() {
     steps.forEach(step => {
         step.querySelector(".field-error").textContent = "";
+
         const input = step.querySelector(".field");
+
         input.removeAttribute("aria-invalid");
         input.classList.remove("shake");
     });
@@ -789,7 +862,14 @@ function openBorrow(id) {
     fieldName.value = String(profile.name || "").slice(0, 40);
     fieldId.value = String(profile.studentId || "").slice(0, 15);
     fieldContact.value = String(profile.contact || "").slice(0, 60);
+
     setReturnDays(7);
+
+    fieldCardNumber.value = "4242 4242 4242 4242";
+    fieldCardExpiry.value = "12/30";
+    fieldCardCvv.value = "123";
+
+    renderBorrowPrice();
 
     el("step2Title").textContent = "Your student ID?";
     el("wizardBookTitle").textContent = book.title;
@@ -802,6 +882,7 @@ function openBorrow(id) {
 
     borrowModal.classList.add("show");
     syncScrollLock();
+
     showStep(1);
 }
 
@@ -816,7 +897,10 @@ function validateStep(n) {
         const value = fieldName.value.trim();
 
         if (!/^\p{L}[\p{L}\s.'-]{1,39}$/u.test(value)) {
-            return { input: fieldName, message: "Tell us your name (at least 2 letters) 🙂" };
+            return {
+                input: fieldName,
+                message: "Tell us your name (at least 2 letters) 🙂"
+            };
         }
     }
 
@@ -824,29 +908,65 @@ function validateStep(n) {
         const value = fieldId.value.trim();
 
         if (!/^[A-Za-z0-9-]{3,15}$/.test(value)) {
-            return { input: fieldId, message: "3 to 15 letters or numbers, no spaces 🪪" };
+            return {
+                input: fieldId,
+                message: "3 to 15 letters or numbers, no spaces 🪪"
+            };
         }
     }
 
     if (n === 3) {
         const value = fieldContact.value.trim();
+
         const looksLikeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+
         const looksLikePhone =
             /^\+?[\d\s()-]{7,20}$/.test(value) &&
             value.replace(/\D/g, "").length >= 7;
 
         if (!looksLikeEmail && !looksLikePhone) {
-            return { input: fieldContact, message: "Enter a valid email or phone number 📬" };
+            return {
+                input: fieldContact,
+                message: "Enter a valid email or phone number 📬"
+            };
         }
     }
 
-    if (n === 4) {
+    if (n === 4 && selectedDueAt === null) {
         const value = fieldDate.value;
         const tomorrow = toISO(addDays(new Date(), 1));
         const latest = toISO(addDays(new Date(), MAX_LOAN_DAYS));
 
         if (!ISO_PATTERN.test(value) || value < tomorrow || value > latest) {
-            return { input: fieldDate, message: `Pick a date within the next ${MAX_LOAN_DAYS} days 📅` };
+            return {
+                input: fieldDate,
+                message: `Pick a date within the next ${MAX_LOAN_DAYS} days, or choose the 1-second test option 📅`
+            };
+        }
+    }
+
+    if (n === 5) {
+        const number = fieldCardNumber.value.replace(/\s/g, "");
+
+        if (number !== DEMO_CARD_NUMBER) {
+            return {
+                input: fieldCardNumber,
+                message: "Use the demo number shown above. Real card details are not accepted."
+            };
+        }
+
+        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(fieldCardExpiry.value.trim())) {
+            return {
+                input: fieldCardExpiry,
+                message: "Use the demo expiry format MM/YY."
+            };
+        }
+
+        if (!/^\d{3}$/.test(fieldCardCvv.value.trim())) {
+            return {
+                input: fieldCardCvv,
+                message: "Enter the 3-digit demo CVV."
+            };
         }
     }
 
@@ -857,10 +977,12 @@ function showFieldError(problem) {
     const errorLine = problem.input.closest(".step").querySelector(".field-error");
 
     errorLine.textContent = problem.message;
-    problem.input.setAttribute("aria-invalid", "true");
 
+    problem.input.setAttribute("aria-invalid", "true");
     problem.input.classList.remove("shake");
+
     void problem.input.offsetWidth;
+
     problem.input.classList.add("shake");
 
     if (problem.input.type === "text") {
@@ -873,12 +995,35 @@ function finishBorrow() {
 
     if (!book || isBorrowed(book.id)) return;
 
+    const price = renderBorrowPrice();
+
     const loan = {
         name: fieldName.value.trim(),
         studentId: fieldId.value.trim(),
         contact: fieldContact.value.trim(),
         borrowedAt: toISO(new Date()),
-        dueDate: fieldDate.value
+
+        dueDate: selectedDueAt !== null
+            ? toISO(new Date(
+                selectedDueAt < 0
+                    ? Date.now() + Math.abs(selectedDueAt) * 1000
+                    : selectedDueAt
+            ))
+            : fieldDate.value,
+
+        dueAt: selectedDueAt !== null
+            ? (
+                selectedDueAt < 0
+                    ? Date.now() + Math.abs(selectedDueAt) * 1000
+                    : selectedDueAt
+            )
+            : new Date(fieldDate.value + "T23:59:59").getTime(),
+
+        discountPercent: price.discountPercent,
+        basePrice: BASE_BORROW_PRICE,
+        amountSaved: price.savings,
+        finalPrice: price.finalPrice,
+        membershipLevel: price.levelName
     };
 
     loans[book.id] = loan;
@@ -889,6 +1034,7 @@ function finishBorrow() {
         studentId: loan.studentId,
         contact: loan.contact
     };
+
     writeStorage(KEYS.profile, profile);
 
     const levelUp = addXp(XP_BORROW);
@@ -902,14 +1048,28 @@ function showSuccess(book, loan, levelUp) {
     el("wizardTop").hidden = true;
     borrowForm.hidden = true;
 
-    el("successBook").textContent = `"${book.title}" is yours, ${loan.name.split(/\s+/)[0]}!`;
-    el("successDue").textContent = `Bring it back by ${formatDate(loan.dueDate)} 📅`;
+    el("successBook").textContent =
+        `"${book.title}" is yours, ${loan.name.split(/\s+/)[0]}!`;
+
+    const dueLabel = selectedDueAt !== null
+        ? new Date(loan.dueAt).toLocaleString()
+        : formatDate(loan.dueDate);
+
+    el("successDue").textContent = `Bring it back by ${dueLabel} 📅`;
     el("successXp").textContent = `+${XP_BORROW} XP ⚡`;
+
+    el("successDiscount").textContent =
+        `${loan.membershipLevel || "Your level"} discount: ${loan.discountPercent}%`;
+
+    el("successPrice").textContent =
+        `Base: ${(loan.basePrice || BASE_BORROW_PRICE).toLocaleString("en-US")} AMD · Saved: ${(loan.amountSaved || 0).toLocaleString("en-US")} AMD · Paid: ${(loan.finalPrice ?? BASE_BORROW_PRICE - Math.round(BASE_BORROW_PRICE * (loan.discountPercent || 0) / 100)).toLocaleString("en-US")} AMD`;
 
     const levelLine = el("successLevel");
 
     if (levelUp) {
-        levelLine.textContent = `🎊 Level up! You're now a ${levelUp.name} ${levelUp.emoji}`;
+        levelLine.textContent =
+            `🎊 Level up! You're now a ${levelUp.name} ${levelUp.emoji}`;
+
         levelLine.hidden = false;
     } else {
         levelLine.hidden = true;
@@ -917,6 +1077,8 @@ function showSuccess(book, loan, levelUp) {
 
     el("successScreen").hidden = false;
 }
+
+/* ---------- wizard events ---------- */
 
 borrowForm.addEventListener("submit", event => {
     event.preventDefault();
@@ -948,12 +1110,20 @@ borrowForm.addEventListener("input", event => {
     input.removeAttribute("aria-invalid");
     input.closest(".step").querySelector(".field-error").textContent = "";
 
-    if (input === fieldDate) syncChips();
+    if (input === fieldDate) {
+        selectedDueAt = null;
+        syncChips();
+    }
 });
 
 chips.forEach(chip => {
     chip.addEventListener("click", () => {
-        setReturnDays(Number(chip.dataset.days));
+        if (chip.dataset.seconds) {
+            setReturnSeconds(Number(chip.dataset.seconds));
+        } else {
+            setReturnDays(Number(chip.dataset.days));
+        }
+
         clearErrors();
     });
 });
@@ -967,17 +1137,15 @@ el("doneBtn").addEventListener("click", closeBorrow);
 
 /* =========================================================
    OTHER EVENTS
-   ========================================================= */
+========================================================= */
 
 el("searchInput").addEventListener("input", () => displayBooks(true));
 
 document.querySelectorAll(".category").forEach(button => {
     button.addEventListener("click", () => {
-        document.querySelector(".category.active")
-            .classList.remove("active");
+        document.querySelector(".category.active").classList.remove("active");
 
         button.classList.add("active");
-
         selectedCategory = button.dataset.category;
 
         displayBooks(true);
@@ -1032,7 +1200,7 @@ document.addEventListener("keydown", event => {
 
 /* =========================================================
    START
-   ========================================================= */
+========================================================= */
 
 fieldDate.min = toISO(addDays(new Date(), 1));
 fieldDate.max = toISO(addDays(new Date(), MAX_LOAN_DAYS));
