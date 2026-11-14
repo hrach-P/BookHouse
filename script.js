@@ -1,1209 +1,2088 @@
-const books = [
-    {
-        id: 1,
-        title: "Harry Potter",
-        author: "J.K. Rowling",
-        category: "Fantasy",
-        isbn: "9780590353427",
-        description: "A young wizard discovers his magical identity and enters Hogwarts, where friendship, danger, and a mysterious past await him."
-    },
-    {
-        id: 2,
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        category: "Fantasy",
-        isbn: "9780547928227",
-        description: "Bilbo Baggins leaves his comfortable home and joins a dangerous adventure to help a group of dwarves reclaim their lost treasure."
-    },
-    {
-        id: 3,
-        title: "The Fellowship of the Ring",
-        author: "J.R.R. Tolkien",
-        category: "Fantasy",
-        isbn: "9780618640157",
-        description: "A young hobbit inherits a powerful ring and begins a journey to prevent a dark force from taking control of Middle-earth."
-    },
-    {
-        id: 4,
-        title: "Percy Jackson",
-        author: "Rick Riordan",
-        category: "Fantasy",
-        isbn: "9780786838653",
-        description: "Percy discovers that Greek mythology is real and that he is connected to the ancient gods. His new world is full of monsters and adventures."
-    },
-    {
-        id: 5,
-        title: "The Chronicles of Narnia",
-        author: "C.S. Lewis",
-        category: "Fantasy",
-        isbn: "9780066238500",
-        description: "Four siblings discover a magical land beyond a wardrobe, where talking animals and an ancient struggle between good and evil await."
-    },
-    {
-        id: 6,
-        title: "The Name of the Wind",
-        author: "Patrick Rothfuss",
-        category: "Fantasy",
-        isbn: "9780756404741",
-        description: "A mysterious musician tells the story of his extraordinary life, from a difficult childhood to his education in the arts of magic."
-    },
-    {
-        id: 7,
-        title: "Eragon",
-        author: "Christopher Paolini",
-        category: "Fantasy",
-        isbn: "9780375826696",
-        description: "A farm boy discovers a dragon egg and becomes part of a dangerous conflict that could change the future of his entire world."
-    },
-    {
-        id: 8,
-        title: "Alice in Wonderland",
-        author: "Lewis Carroll",
-        category: "Fantasy",
-        isbn: "9780141439761",
-        description: "Alice follows a mysterious rabbit into a strange world filled with unusual creatures, curious characters, and impossible adventures."
-    },
-    {
-        id: 9,
-        title: "1984",
-        author: "George Orwell",
-        category: "Fiction",
-        isbn: "9780451524935",
-        description: "In a society controlled by constant surveillance and propaganda, Winston Smith begins questioning the government and its version of reality."
-    },
-    {
-        id: 10,
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        category: "Fiction",
-        isbn: "9780743273565",
-        description: "A mysterious millionaire throws extravagant parties while secretly hoping to reconnect with someone from his past."
-    },
-    {
-        id: 11,
-        title: "The Alchemist",
-        author: "Paulo Coelho",
-        category: "Fiction",
-        isbn: "9780061122415",
-        description: "A young shepherd travels across the desert searching for treasure and discovers important lessons about dreams and life along the way."
-    },
-    {
-        id: 12,
-        title: "To Kill a Mockingbird",
-        author: "Harper Lee",
-        category: "Fiction",
-        isbn: "9780061120084",
-        description: "Through the eyes of a young girl, a small town faces questions of justice, prejudice, courage, and human kindness."
-    },
-    {
-        id: 13,
-        title: "The Catcher in the Rye",
-        author: "J.D. Salinger",
-        category: "Fiction",
-        isbn: "9780316769488",
-        description: "Holden Caulfield recounts several days of confusion and reflection as he struggles to understand adulthood and the world around him."
-    },
-    {
-        id: 14,
-        title: "Pride and Prejudice",
-        author: "Jane Austen",
-        category: "Fiction",
-        isbn: "9780141439518",
-        description: "Elizabeth Bennet navigates family expectations, social class, misunderstandings, and an unexpected relationship."
-    },
-    {
-        id: 15,
-        title: "The Little Prince",
-        author: "Antoine de Saint-Exupery",
-        category: "Fiction",
-        isbn: "9780156012195",
-        description: "A pilot meets a mysterious young traveler from another planet, whose stories reveal thoughtful lessons about friendship and human nature."
-    },
-    {
-        id: 16,
-        title: "Of Mice and Men",
-        author: "John Steinbeck",
-        category: "Fiction",
-        isbn: "9780140177398",
-        description: "Two traveling workers struggle through difficult times while holding onto a shared dream of building a better life."
-    },
-    {
-        id: 17,
-        title: "Sherlock Holmes",
-        author: "Arthur Conan Doyle",
-        category: "Mystery",
-        isbn: "9780140439072",
-        description: "The brilliant detective Sherlock Holmes and his companion Dr. Watson solve mysterious cases through observation and logical reasoning."
-    },
-    {
-        id: 18,
-        title: "Dracula",
-        author: "Bram Stoker",
-        category: "Mystery",
-        isbn: "9780141439846",
-        description: "A mysterious count from Transylvania arrives in England, bringing an unsettling secret that threatens the people around him."
-    },
-    {
-        id: 19,
-        title: "Murder on the Orient Express",
-        author: "Agatha Christie",
-        category: "Mystery",
-        isbn: "9780062693662",
-        description: "Detective Hercule Poirot investigates a murder aboard a train trapped by snow, where every passenger has something to hide."
-    },
-    {
-        id: 20,
-        title: "And Then There Were None",
-        author: "Agatha Christie",
-        category: "Mystery",
-        isbn: "9780062073488",
-        description: "Ten strangers arrive on an isolated island, where a mysterious host reveals that each visitor has a hidden secret."
-    },
-    {
-        id: 21,
-        title: "The Hound of the Baskervilles",
-        author: "Arthur Conan Doyle",
-        category: "Mystery",
-        isbn: "9780140437867",
-        description: "Holmes investigates a mysterious family legend involving a terrifying creature said to haunt the Baskerville family."
-    },
-    {
-        id: 22,
-        title: "The Girl with the Dragon Tattoo",
-        author: "Stieg Larsson",
-        category: "Mystery",
-        isbn: "9780307454546",
-        description: "A journalist and a talented hacker investigate the disappearance of a young woman from a wealthy family."
-    },
-    {
-        id: 23,
-        title: "The Big Sleep",
-        author: "Raymond Chandler",
-        category: "Mystery",
-        isbn: "9780394758282",
-        description: "Private detective Philip Marlowe takes a case involving a wealthy family and discovers a complicated web of secrets."
-    },
-    {
-        id: 24,
-        title: "The Maltese Falcon",
-        author: "Dashiell Hammett",
-        category: "Mystery",
-        isbn: "9780679722649",
-        description: "Private detective Sam Spade becomes involved in a dangerous search for a mysterious and valuable historical object."
-    },
-    {
-        id: 25,
-        title: "Dune",
-        author: "Frank Herbert",
-        category: "Science",
-        isbn: "9780441013593",
-        description: "On a desert planet where a valuable resource controls the universe, young Paul Atreides becomes part of an enormous political struggle."
-    },
-    {
-        id: 26,
-        title: "The Martian",
-        author: "Andy Weir",
-        category: "Science",
-        isbn: "9780553418026",
-        description: "An astronaut is accidentally left behind on Mars and must use science, creativity, and determination to survive."
-    },
-    {
-        id: 27,
-        title: "The Hitchhiker's Guide to the Galaxy",
-        author: "Douglas Adams",
-        category: "Science",
-        isbn: "9780345391803",
-        description: "Arthur Dent unexpectedly escapes Earth's destruction and begins a bizarre journey through space with an unusual group of travelers."
-    },
-    {
-        id: 28,
-        title: "Fahrenheit 451",
-        author: "Ray Bradbury",
-        category: "Science",
-        isbn: "9781451673319",
-        description: "In a future where books are forbidden, a fireman responsible for destroying them begins questioning the society he serves."
-    },
-    {
-        id: 29,
-        title: "Brave New World",
-        author: "Aldous Huxley",
-        category: "Science",
-        isbn: "9780060850524",
-        description: "A futuristic society maintains stability through technology and conditioning, but not everyone accepts its definition of happiness."
-    },
-    {
-        id: 30,
-        title: "Foundation",
-        author: "Isaac Asimov",
-        category: "Science",
-        isbn: "9780553293357",
-        description: "A mathematician predicts the collapse of a galactic empire and creates a plan to preserve knowledge during the coming dark age."
-    },
-    {
-        id: 31,
-        title: "Cosmos",
-        author: "Carl Sagan",
-        category: "Science",
-        isbn: "9780345539434",
-        description: "Carl Sagan explores the universe, the history of scientific discovery, and humanity's place in the cosmos."
-    },
-    {
-        id: 32,
-        title: "A Brief History of Time",
-        author: "Stephen Hawking",
-        category: "Science",
-        isbn: "9780553380163",
-        description: "Stephen Hawking introduces major ideas about the universe, including black holes, space, time, and the origins of existence."
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+:root {
+    --bg: #0b0a14;
+    --surface: rgba(255, 255, 255, 0.05);
+    --surface-strong: rgba(255, 255, 255, 0.09);
+    --border: rgba(255, 255, 255, 0.12);
+    --text: #f4f2ff;
+    --muted: #a8a4cc;
+    --purple: #a855f7;
+    --cyan: #22d3ee;
+    --lime: #a3e635;
+    --pink: #f472b6;
+    --orange: #fb923c;
+    --grad: linear-gradient(135deg, var(--purple), var(--cyan));
+    --grad-hot: linear-gradient(135deg, var(--pink), var(--orange));
+    --radius: 18px;
+    --font: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(600px 420px at 8% 0%, rgba(168, 85, 247, 0.30), transparent 60%),
+        radial-gradient(520px 420px at 92% 18%, rgba(34, 211, 238, 0.18), transparent 60%),
+        radial-gradient(620px 500px at 50% 100%, rgba(244, 114, 182, 0.16), transparent 60%);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+button {
+    font-family: inherit;
+}
+
+#confetti {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3000;
+}
+
+/* ---------- HEADER ---------- */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 16px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: rgba(11, 10, 20, 0.75);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    color: var(--text);
+    font-size: 27px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+nav {
+    display: flex;
+    gap: 32px;
+}
+
+nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: var(--cyan);
+}
+
+.xp-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px 7px 10px;
+    background: var(--surface-strong);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: default;
+}
+
+.xp-emoji {
+    font-size: 22px;
+}
+
+.xp-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 86px;
+}
+
+.xp-level {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.xp-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.xp-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--lime), var(--cyan));
+    border-radius: 99px;
+    transition: width 0.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.xp-text {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.main-button,
+.btn-primary {
+    display: inline-block;
+    text-decoration: none;
+    background: var(--grad);
+    color: #0b0a14;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 26px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.45);
+    transition: transform 0.15s, box-shadow 0.2s;
+}
+
+.main-button:hover,
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 36px rgba(34, 211, 238, 0.55);
+}
+
+.main-button:active,
+.btn-primary:active,
+.borrow-btn:active {
+    transform: scale(0.95);
+}
+
+.ghost-button,
+.btn-ghost {
+    background: transparent;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 14px 24px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+}
+
+.ghost-button:hover,
+.btn-ghost:hover {
+    border-color: var(--pink);
+    background: rgba(244, 114, 182, 0.1);
+    transform: translateY(-3px);
+}
+
+/* ---------- HERO ---------- */
+
+.hero {
+    min-height: 480px;
+    padding: 70px 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-content {
+    max-width: 580px;
+}
+
+.eyebrow {
+    color: var(--cyan);
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 6.5vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 22px;
+}
+
+.hero h1 span {
+    background: var(--grad-hot);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-description {
+    color: var(--muted);
+    font-size: 19px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 420px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.hero-image {
+    width: 260px;
+    height: 340px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: floaty 4s ease-in-out infinite;
+}
+
+.hero-book {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #2a1f5c, #12102a);
+    color: var(--text);
+    padding: 26px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid var(--purple);
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(168, 85, 247, 0.5), inset 0 0 30px rgba(34, 211, 238, 0.12);
+    transform: rotate(4deg);
+}
+
+.hero-book p {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+}
+
+.hero-book h2 {
+    font-size: 38px;
+    line-height: 1.15;
+}
+
+.hero-book span {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+}
+
+/* ---------- STATS ---------- */
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    padding: 10px 6% 50px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    min-width: 170px;
+    padding: 22px 28px;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+    border-color: var(--purple);
+}
+
+.stat-icon {
+    font-size: 26px;
+}
+
+.stat h2 {
+    font-size: 40px;
+    margin: 6px 0 2px;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.stat p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* ---------- LIBRARY ---------- */
+
+.library {
+    padding: 50px 6% 80px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.section-heading h2 {
+    font-size: clamp(32px, 5vw, 46px);
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+}
+
+.section-heading > p:last-child {
+    color: var(--muted);
+}
+
+.search-container {
+    max-width: 680px;
+    margin: 0 auto 22px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-container input {
+    flex: 1;
+    min-width: 0;
+    padding: 16px 20px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface-strong);
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-container input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.18);
+}
+
+.search-container input::placeholder {
+    color: #7d7aa3;
+}
+
+.surprise-small {
+    width: 56px;
+    font-size: 24px;
+    background: var(--grad-hot);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.surprise-small:hover {
+    transform: rotate(20deg) scale(1.1);
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 38px;
+}
+
+.category {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    color: var(--text);
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.15s, background 0.2s, border-color 0.2s;
+}
+
+.category:hover {
+    transform: translateY(-3px);
+    border-color: var(--purple);
+}
+
+.category.active {
+    background: var(--grad);
+    color: #0b0a14;
+    font-weight: 700;
+    border-color: transparent;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.45);
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.book-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.book-card.pop {
+    animation: popIn 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) backwards;
+    animation-delay: calc(var(--i, 0) * 35ms);
+}
+
+.book-card:hover,
+.book-card:focus-visible {
+    transform: translateY(-8px) rotate(-1deg);
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 1px var(--cyan), 0 18px 40px rgba(34, 211, 238, 0.25);
+}
+
+.book-cover {
+    position: relative;
+    height: 250px;
+    margin: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-cover img {
+    transform: scale(1.06);
+}
+
+.status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+}
+
+.status.in {
+    background: rgba(163, 230, 53, 0.9);
+    color: #1a2503;
+}
+
+.status.out {
+    background: rgba(244, 114, 182, 0.92);
+    color: #3a0820;
+}
+
+.book-info {
+    padding: 4px 16px 18px;
+}
+
+.book-info h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+    line-height: 1.25;
+}
+
+.author {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.book-category {
+    display: inline-block;
+    color: var(--cyan);
+    font-size: 12px;
+    margin-bottom: 14px;
+}
+
+.due {
+    color: var(--pink);
+    font-size: 12px;
+    margin: -6px 0 12px;
+}
+
+.borrow-btn {
+    width: 100%;
+    background: var(--grad);
+    color: #0b0a14;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.15s, box-shadow 0.2s;
+}
+
+.borrow-btn:hover {
+    box-shadow: 0 0 22px rgba(34, 211, 238, 0.5);
+}
+
+.borrow-btn.return {
+    background: transparent;
+    color: var(--lime);
+    border: 2px solid var(--lime);
+}
+
+.borrow-btn.return:hover {
+    background: rgba(163, 230, 53, 0.12);
+    box-shadow: 0 0 22px rgba(163, 230, 53, 0.35);
+}
+
+.empty-message {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 18px;
+}
+
+/* ---------- MODALS ---------- */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 5, 14, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+}
+
+.modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 740px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1a1736, #12102a);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    align-items: center;
+    gap: 35px;
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.3);
+    animation: modalAppear 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    z-index: 5;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 34px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.modal-close:hover {
+    color: var(--pink);
+    transform: rotate(90deg);
+}
+
+.modal-book-image {
+    height: 320px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.25);
+}
+
+.modal-book-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.modal-book-info .eyebrow {
+    margin-bottom: 10px;
+}
+
+.modal-book-info h2 {
+    font-size: 30px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+}
+
+.modal-author {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.modal-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+}
+
+.modal-book-info h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.modal-description {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.modal-borrow {
+    padding: 15px;
+    font-size: 15px;
+}
+
+/* ---------- BORROW WIZARD ---------- */
+
+.wizard {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1a1736, #12102a);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 34px 30px 28px;
+    box-shadow: 0 0 70px rgba(168, 85, 247, 0.4);
+    animation: modalAppear 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.wizard-book {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-right: 26px;
+}
+
+.wizard-book strong {
+    color: var(--cyan);
+}
+
+.wizard-progress {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.wizard-progress-bar {
+    height: 100%;
+    width: 25%;
+    background: linear-gradient(90deg, var(--purple), var(--cyan), var(--lime));
+    border-radius: 99px;
+    transition: width 0.45s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.wizard-step-label {
+    margin: 8px 0 18px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+}
+
+.step {
+    display: none;
+    text-align: center;
+}
+
+.step.active {
+    display: block;
+    animation: slideIn 0.35s ease;
+}
+
+.step-emoji {
+    font-size: 58px;
+    margin-bottom: 8px;
+    animation: bounce 0.6s ease;
+}
+
+.step h2 {
+    font-size: 27px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.field {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 20px;
+    font-family: inherit;
+    text-align: center;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.07);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    outline: none;
+    color-scheme: dark;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field::placeholder {
+    color: #6f6c96;
+}
+
+.field:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.18);
+}
+
+.field[aria-invalid="true"] {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.18);
+}
+
+.field.shake {
+    animation: shake 0.4s;
+}
+
+.field-error {
+    min-height: 22px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--pink);
+}
+
+.chips {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.chip {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s;
+}
+
+.chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple);
+}
+
+.chip.active {
+    background: var(--grad);
+    color: #0b0a14;
+    font-weight: 700;
+    border-color: transparent;
+}
+
+.wizard-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.wizard-actions .btn-ghost {
+    flex: 0 0 auto;
+}
+
+.wizard-actions .btn-primary {
+    flex: 1;
+}
+
+/* ---------- SUCCESS SCREEN ---------- */
+
+.success {
+    text-align: center;
+    padding: 10px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.success-emoji {
+    font-size: 76px;
+    animation: bounce 0.8s ease;
+}
+
+.success h2 {
+    font-size: 32px;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.success-book {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.success-due {
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.success-xp {
+    margin-top: 6px;
+    padding: 8px 18px;
+    background: rgba(163, 230, 53, 0.15);
+    border: 1px solid var(--lime);
+    border-radius: 999px;
+    color: var(--lime);
+    font-weight: 700;
+    animation: pulse 1.4s ease infinite;
+}
+
+.success-level {
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.success .btn-primary {
+    margin-top: 16px;
+    width: 100%;
+}
+
+/* ---------- HOW IT WORKS ---------- */
+
+.about {
+    padding: 80px 7%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.025);
+    border-top: 1px solid var(--border);
+}
+
+.about h2 {
+    font-size: clamp(30px, 4.5vw, 42px);
+    letter-spacing: -1px;
+    margin-bottom: 36px;
+}
+
+.steps-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.how-card {
+    position: relative;
+    padding: 34px 22px 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.how-card:hover {
+    transform: translateY(-6px) rotate(1deg);
+    border-color: var(--pink);
+}
+
+.how-number {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--grad-hot);
+    color: #0b0a14;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+.how-card h3 {
+    font-size: 19px;
+    margin-bottom: 8px;
+}
+
+.how-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+footer {
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+footer > p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.copyright {
+    font-size: 12px !important;
+    margin-top: 22px !important;
+    color: #7d7aa3 !important;
+}
+
+/* ---------- TOASTS ---------- */
+
+.toast-root {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+    width: calc(100% - 32px);
+}
+
+.toast {
+    max-width: 420px;
+    padding: 13px 22px;
+    background: #1d1a3d;
+    border: 1px solid var(--purple);
+    border-radius: 999px;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.45);
+    font-size: 15px;
+    text-align: center;
+    animation: toastIn 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+.toast.leaving {
+    animation: toastOut 0.3s ease forwards;
+}
+
+/* ---------- ANIMATIONS ---------- */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalAppear {
+    from { opacity: 0; transform: translateY(20px) scale(0.94); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.92); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounce {
+    0% { transform: scale(0.3); }
+    55% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(163, 230, 53, 0); }
+}
+
+@keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+    to { opacity: 0; transform: translateY(10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
-];
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero-image {
+        width: 210px;
+        height: 280px;
+    }
+
+    nav {
+        gap: 20px;
+    }
+
+    .modal-content {
+        max-width: 650px;
+    }
+}
+
+@media (max-width: 700px) {
+    nav {
+        display: none;
+    }
+
+    .header {
+        padding: 12px 5%;
+    }
+
+    .steps-row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding: 50px 6%;
+        min-height: auto;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .hero-description {
+        font-size: 17px;
+    }
+
+    .stats {
+        gap: 12px;
+        padding-bottom: 36px;
+    }
+
+    .stat {
+        min-width: 0;
+        flex: 1;
+        padding: 16px 10px;
+    }
+
+    .stat h2 {
+        font-size: 28px;
+    }
+
+    .library {
+        padding: 40px 5% 60px;
+    }
+
+    .book-grid {
+        gap: 12px;
+    }
+
+    .book-cover {
+        height: 190px;
+        margin: 8px;
+    }
+
+    .book-info {
+        padding: 4px 10px 13px;
+    }
+
+    .book-info h3 {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 35px 24px 24px;
+        max-width: 420px;
+    }
+
+    .modal-book-image {
+        width: 155px;
+        height: 220px;
+        margin: auto;
+    }
+
+    .modal-book-info h2 {
+        font-size: 25px;
+    }
+
+    .modal-borrow {
+        position: sticky;
+        bottom: 0;
+    }
+
+    .wizard {
+        padding: 30px 22px 22px;
+    }
+
+    .step h2 {
+        font-size: 23px;
+    }
+
+    .xp-text {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.borrow-discount,
+.success-discount {
+    color: #22d3ee;
+    font-weight: 700;
+    margin: 8px 0 12px;
+}
+
+.demo-card-note {
+    padding: 10px 12px;
+    margin: 8px 0 14px;
+    border: 1px solid rgba(34, 211, 238, .35);
+    border-radius: 10px;
+    background: rgba(34, 211, 238, .08);
+    color: #b9f4fb;
+    font-size: .88rem;
+    line-height: 1.45;
+}
+
+.card-label {
+    display: block;
+    margin: 10px 0 6px;
+    color: #d9d4e8;
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.card-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.chips {
+    flex-wrap: wrap;
+}
+
+.chip[data-seconds] {
+    border-color: rgba(244, 114, 182, .6);
+}
+
+.chip[data-seconds].active {
+    background: rgba(244, 114, 182, .18);
+    border-color: #f472b6;
+}
+
+@media (max-width: 480px) {
+    .card-fields { grid-template-columns: 1fr 1fr; }
+}
+
+/* Borrowing price and membership discount breakdown */
+.borrow-price-card {
+    margin: 12px 0 18px;
+    padding: 14px 16px;
+    border: 1px solid rgba(148, 163, 184, .24);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, .42);
+}
+.price-card-heading, .price-line, .price-total, .level-discount-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.price-card-heading { margin-bottom: 10px; }
+.price-card-heading span { color: #a7a2b8; font-size: .78rem; }
+.price-line { padding: 5px 0; color: #c9c4d8; font-size: .9rem; }
+.price-line strong { color: #fff; }
+.discount-line strong { color: #34d399; }
+.price-total {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(148, 163, 184, .25);
+    font-weight: 700;
+}
+.price-total strong { color: #67e8f9; font-size: 1.25rem; }
+.level-discount-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 12px;
+}
+.level-discount-row {
+    padding: 7px 9px;
+    border: 1px solid rgba(148, 163, 184, .16);
+    border-radius: 8px;
+    color: #bdb7ce;
+    font-size: .76rem;
+}
+.level-discount-row strong { color: #d8d3e5; white-space: nowrap; }
+.level-discount-row.current {
+    border-color: rgba(34, 211, 238, .65);
+    background: rgba(34, 211, 238, .1);
+    color: #fff;
+}
+.level-discount-row.current strong { color: #67e8f9; }
+.success-price { color: #67e8f9; font-weight: 700; }
+@media (max-width: 420px) {
+    .level-discount-list { grid-template-columns: 1fr; }
+    .price-card-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
+}
+html {
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+body {
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .header {
+        gap: 16px;
+        padding-left: clamp(16px, 3vw, 32px);
+        padding-right: clamp(16px, 3vw, 32px);
+    }
+
+    .xp-pill {
+        min-width: 0;
+        max-width: 230px;
+    }
+
+    .xp-info {
+        min-width: 0;
+    }
+
+    .xp-level,
+    .xp-text {
+        overflow-wrap: anywhere;
+    }
+
+    .hero {
+        gap: clamp(20px, 4vw, 48px);
+        padding-left: clamp(24px, 5vw, 60px);
+        padding-right: clamp(24px, 5vw, 60px);
+    }
+
+    .hero-content {
+        min-width: 0;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+    }
+
+    .library {
+        padding-left: clamp(20px, 4vw, 48px);
+        padding-right: clamp(20px, 4vw, 48px);
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .book-card {
+        min-width: 0;
+    }
+
+    .book-info h3,
+    .book-info p {
+        overflow-wrap: anywhere;
+    }
+
+    .modal-overlay {
+        padding: 20px;
+    }
+
+    .modal-content {
+        width: min(100%, 700px);
+        max-width: 100%;
+    }
+}
+
+/* Smaller tablets and large phones */
+@media (max-width: 700px) {
+    .header {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .header nav {
+        display: none;
+    }
+
+    .xp-pill {
+        max-width: 190px;
+    }
+
+    .hero {
+        grid-template-columns: minmax(0, 1fr);
+        text-align: center;
+        justify-items: center;
+    }
+
+    .hero-content {
+        width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .stat {
+        min-width: 0;
+    }
+
+    .steps-row {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-overlay {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding: 16px;
+    }
+
+    .modal-content {
+        margin: auto;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .modal-book-image {
+        max-height: 260px;
+    }
+
+    .modal-book-image img {
+        max-height: 240px;
+        object-fit: contain;
+    }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+    * {
+        min-width: 0;
+    }
+
+    .header {
+        padding:
+            max(12px, env(safe-area-inset-top))
+            max(16px, env(safe-area-inset-right))
+            12px
+            max(16px, env(safe-area-inset-left));
+    }
+
+    .logo {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+    }
+
+    .xp-pill {
+        max-width: 165px;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .xp-emoji {
+        flex-shrink: 0;
+    }
+
+    .xp-text {
+        display: none;
+    }
+
+    .hero {
+        padding: 48px 20px;
+        gap: 24px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2.4rem, 11vw, 3.5rem);
+        line-height: 1.05;
+    }
+
+    .hero-description {
+        max-width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .hero-buttons {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .hero-buttons a,
+    .hero-buttons button {
+        max-width: 100%;
+    }
+
+    .stats {
+        gap: 10px;
+        padding: 20px 14px;
+    }
+
+    .stat {
+        padding: 12px 5px;
+    }
+
+    .stat h2 {
+        font-size: clamp(1.4rem, 6vw, 2rem);
+    }
+
+    .stat p {
+        font-size: 0.75rem;
+    }
+
+    .library {
+        padding: 48px 16px;
+    }
+
+    .section-heading h2 {
+        font-size: clamp(1.7rem, 7vw, 2.3rem);
+        overflow-wrap: anywhere;
+    }
+
+    .search-container {
+        display: flex;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .search-container input {
+        flex: 1;
+        width: 0;
+        min-width: 0;
+    }
+
+    .surprise-small {
+        flex: 0 0 auto;
+    }
+
+    .categories {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+        padding-bottom: 10px;
+        gap: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .category {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .book-card {
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .book-cover {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .book-cover img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .book-info {
+        padding: 12px;
+        min-width: 0;
+    }
+
+    .book-info h3 {
+        font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    .book-info .author,
+    .book-info .book-category,
+    .book-info .due {
+        font-size: 0.8rem;
+        overflow-wrap: anywhere;
+    }
+
+    .borrow-btn {
+        width: 100%;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .modal-overlay {
+        padding:
+            max(12px, env(safe-area-inset-top))
+            max(12px, env(safe-area-inset-right))
+            max(12px, env(safe-area-inset-bottom))
+            max(12px, env(safe-area-inset-left));
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        gap: 18px;
+    }
+
+    .modal-book-info {
+        min-width: 0;
+        padding: 18px;
+    }
+
+    .modal-book-info h2 {
+        font-size: clamp(1.4rem, 6vw, 2rem);
+        overflow-wrap: anywhere;
+    }
+
+    .modal-description {
+        overflow-wrap: anywhere;
+    }
+
+    .wizard {
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: clamp(18px, 5vw, 26px);
+        margin: auto;
+    }
+
+    .wizard-book {
+        overflow-wrap: anywhere;
+    }
+
+    .borrow-price-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .price-card-heading,
+    .price-line,
+    .price-total {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .price-card-heading strong,
+    .price-line span,
+    .price-line strong,
+    .price-total span,
+    .price-total strong {
+        overflow-wrap: anywhere;
+    }
+
+    .level-discount-list {
+        width: 100%;
+    }
+
+    .level-discount-row {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .step h2 {
+        font-size: clamp(1.35rem, 6vw, 1.8rem);
+        overflow-wrap: anywhere;
+    }
+
+    .field {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px;
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .chip {
+        max-width: 100%;
+        white-space: normal;
+    }
+
+    .card-fields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .wizard-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .wizard-actions button {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .success {
+        overflow-wrap: anywhere;
+    }
+
+    .success-price {
+        overflow-wrap: anywhere;
+    }
+
+    .about {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    footer {
+        padding-left: 18px;
+        padding-right: 18px;
+        text-align: center;
+    }
+
+    .toast-root {
+        left: max(12px, env(safe-area-inset-left));
+        right: max(12px, env(safe-area-inset-right));
+        bottom: max(12px, env(safe-area-inset-bottom));
+        width: auto;
+    }
+
+    .toast {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 420px) {
+    .book-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .book-card {
+        display: grid;
+        grid-template-columns: minmax(105px, 38%) minmax(0, 1fr);
+        align-items: stretch;
+    }
+
+    .book-cover {
+        height: 100%;
+        min-height: 170px;
+    }
+
+    .book-cover img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .book-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 7px;
+    }
+
+    .book-info h3 {
+        font-size: 1rem;
+    }
+
+    .book-info .borrow-btn {
+        margin-top: 5px;
+    }
+
+    .stats {
+        gap: 5px;
+    }
+
+    .stat-icon {
+        font-size: 1.2rem;
+    }
+
+    .card-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .wizard {
+        padding: 16px;
+    }
+
+    .wizard-actions {
+        flex-direction: column-reverse;
+    }
+
+    .wizard-actions button {
+        width: 100%;
+    }
+}
+
+/* Respect devices that have a screen notch or home indicator */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .modal-overlay {
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Avoid unnecessary animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
 /* =========================================================
-   STORAGE (saved in this browser only)
+   ADDITIONS: cover fallback, stock, levels screen
+   (new rules only, nothing above is changed)
 ========================================================= */
 
-const KEYS = {
-    loans: "bookhouseLoans",
-    xp: "bookhouseXP",
-    profile: "bookhouseProfile"
-};
-
-const XP_BORROW = 50;
-const BASE_BORROW_PRICE = 1000;
-const XP_RETURN = 10;
-const MAX_LOAN_DAYS = 30;
-const TOTAL_STEPS = 5;
-const LATE_RETURN_PENALTY = 25;
-const DEMO_CARD_NUMBER = "4242424242424242";
-
-const LEVELS = [
-    { name: "Newcomer", emoji: "🌱", min: 0, discount: 0 },
-    { name: "Bookworm", emoji: "🐛", min: 100, discount: 5 },
-    { name: "Page Turner", emoji: "📖", min: 250, discount: 10 },
-    { name: "Bibliophile", emoji: "🦉", min: 500, discount: 15 },
-    { name: "Librarian", emoji: "👑", min: 1000, discount: 20 }
-];
-
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-function readStorage(key, fallback) {
-    try {
-        const raw = localStorage.getItem(key);
-        return raw === null ? fallback : JSON.parse(raw);
-    } catch (error) {
-        return fallback;
-    }
+/* styled cover shown when no book cover can be found */
+.modal-book-image {
+    position: relative;
 }
 
-function writeStorage(key, value) {
-    try {
-        localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-        /* storage not available, the app still works for this visit */
-    }
+.book-cover-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 22px;
+    overflow: hidden;
+    text-align: center;
+    color: var(--text);
+    background: linear-gradient(160deg, #2a1f5c, #12102a);
+    box-shadow: inset 0 0 30px rgba(34, 211, 238, 0.12);
 }
 
-/* ---------- date helpers ---------- */
-
-function toISO(date) {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, "0");
-    const d = String(date.getDate()).padStart(2, "0");
-    return `${y}-${m}-${d}`;
+.fallback-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    margin-bottom: 18px;
 }
 
-function addDays(date, days) {
-    const copy = new Date(date);
-    copy.setDate(copy.getDate() + days);
-    return copy;
+.fallback-title {
+    font-size: clamp(15px, 2vw, 22px);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
 }
 
-function formatDate(iso) {
-    return new Date(iso + "T00:00:00").toLocaleDateString(undefined, {
-        month: "short",
-        day: "numeric"
-    });
+.fallback-author {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 14px;
 }
 
-const ISO_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-
-/* ---------- load saved data safely ---------- */
-
-function cleanLoans(raw) {
-    const clean = {};
-
-    if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
-        return clean;
-    }
-
-    Object.entries(raw).forEach(([id, loan]) => {
-        const bookId = Number(id);
-
-        if (!books.some(book => book.id === bookId)) return;
-        if (!loan || typeof loan !== "object") return;
-
-        const today = toISO(new Date());
-
-        clean[bookId] = {
-            name: String(loan.name || "").slice(0, 40),
-            studentId: String(loan.studentId || "").slice(0, 15),
-            contact: String(loan.contact || "").slice(0, 60),
-            borrowedAt: ISO_PATTERN.test(loan.borrowedAt) ? loan.borrowedAt : today,
-            dueDate: ISO_PATTERN.test(loan.dueDate) ? loan.dueDate : today,
-            dueAt: Number.isFinite(Number(loan.dueAt)) && Number(loan.dueAt) > 0
-                ? Number(loan.dueAt)
-                : new Date((ISO_PATTERN.test(loan.dueDate) ? loan.dueDate : today) + "T23:59:59").getTime(),
-            discountPercent: Math.max(0, Math.min(100, Number(loan.discountPercent) || 0)),
-            basePrice: Number.isFinite(Number(loan.basePrice)) ? Number(loan.basePrice) : BASE_BORROW_PRICE,
-            amountSaved: Math.max(0, Number(loan.amountSaved) || 0),
-            finalPrice: Number.isFinite(Number(loan.finalPrice))
-                ? Number(loan.finalPrice)
-                : BASE_BORROW_PRICE - Math.round(BASE_BORROW_PRICE * (Number(loan.discountPercent) || 0) / 100),
-            membershipLevel: String(loan.membershipLevel || "Newcomer")
-        };
-    });
-
-    return clean;
+/* stock */
+.stock-info {
+    color: var(--lime);
+    font-size: 12px;
+    margin: -6px 0 12px;
 }
 
-let loans = cleanLoans(readStorage(KEYS.loans, {}));
-let xp = Math.max(0, Number(readStorage(KEYS.xp, 0)) || 0);
-let profile = readStorage(KEYS.profile, {});
-
-if (!profile || typeof profile !== "object") profile = {};
-
-let selectedCategory = "All";
-let selectedBook = null;
-
-function isBorrowed(id) {
-    return Object.prototype.hasOwnProperty.call(loans, id);
+.stock-info.low,
+.modal-stock.low {
+    color: var(--orange);
 }
 
-function borrowedCount() {
-    return Object.keys(loans).length;
+.stock-info.none,
+.modal-stock.none {
+    color: var(--pink);
 }
 
-/* =========================================================
-   DOM
-========================================================= */
-
-const el = id => document.getElementById(id);
-
-const bookModal = el("bookModal");
-const borrowModal = el("borrowModal");
-const borrowForm = el("borrowForm");
-const steps = [...document.querySelectorAll(".step")];
-const chips = [...document.querySelectorAll(".chip")];
-
-const fieldName = el("fieldName");
-const fieldId = el("fieldId");
-const fieldContact = el("fieldContact");
-const fieldDate = el("fieldDate");
-const fieldCardNumber = el("fieldCardNumber");
-const fieldCardExpiry = el("fieldCardExpiry");
-const fieldCardCvv = el("fieldCardCvv");
-
-let selectedDueAt = null;
-let wizardBook = null;
-let wizardStep = 1;
-
-/* =========================================================
-   XP + LEVELS
-========================================================= */
-
-function getLevelIndex(points) {
-    let index = 0;
-
-    LEVELS.forEach((level, i) => {
-        if (points >= level.min) index = i;
-    });
-
-    return index;
+.modal-stock {
+    color: var(--lime);
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 8px;
 }
 
-function updateXpPill() {
-    const index = getLevelIndex(xp);
-    const level = LEVELS[index];
-    const next = LEVELS[index + 1];
-
-    el("levelEmoji").textContent = level.emoji;
-    el("levelName").textContent = level.name;
-
-    if (next) {
-        const progress = (xp - level.min) / (next.min - level.min);
-        el("xpFill").style.width = Math.round(progress * 100) + "%";
-        el("xpText").textContent = `${xp} / ${next.min} XP`;
-    } else {
-        el("xpFill").style.width = "100%";
-        el("xpText").textContent = `${xp} XP · MAX`;
-    }
-
-    const xpPill = document.querySelector(".xp-pill");
-    if (xpPill) xpPill.title = `${level.name}: ${level.discount}% borrowing discount`;
+.borrow-btn:disabled {
+    background: var(--surface-strong);
+    color: var(--muted);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
 }
 
-function currentDiscount() {
-    return LEVELS[getLevelIndex(xp)].discount;
+/* levels screen (opens from the level pill in the header) */
+.xp-pill {
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
 }
 
-function renderBorrowPrice() {
-    const index = getLevelIndex(xp);
-    const level = LEVELS[index];
-    const savings = Math.round(BASE_BORROW_PRICE * level.discount / 100);
-    const finalPrice = BASE_BORROW_PRICE - savings;
-
-    el("borrowDiscount").textContent = `${level.emoji} ${level.name} discount: ${level.discount}%`;
-    el("basePrice").textContent = `${BASE_BORROW_PRICE.toLocaleString("en-US")} AMD`;
-    el("priceDiscountLabel").textContent = `Your discount (${level.discount}%)`;
-    el("priceSavings").textContent = `−${savings.toLocaleString("en-US")} AMD`;
-    el("finalPrice").textContent = `${finalPrice.toLocaleString("en-US")} AMD`;
-
-    el("levelDiscountList").innerHTML = LEVELS.map((item, i) => `
-        <div class="level-discount-row ${i === index ? "current" : ""}">
-            <span>${item.emoji} ${item.name}${i === index ? " · Current" : ""}</span>
-            <strong>${item.discount}% off</strong>
-        </div>
-    `).join("");
-
-    return {
-        discountPercent: level.discount,
-        savings,
-        finalPrice,
-        levelName: level.name
-    };
+.xp-pill:hover,
+.xp-pill:focus-visible {
+    border-color: var(--cyan);
+    outline: none;
 }
 
-function addXp(amount) {
-    const before = getLevelIndex(xp);
-
-    xp = Math.max(0, xp + amount);
-    writeStorage(KEYS.xp, xp);
-    updateXpPill();
-
-    const after = getLevelIndex(xp);
-    return after > before ? LEVELS[after] : null;
+.xp-pill:active {
+    transform: scale(0.96);
 }
 
-/* =========================================================
-   SMALL UI HELPERS
-========================================================= */
-
-function showToast(message) {
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.textContent = message;
-
-    el("toastRoot").appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add("leaving");
-        setTimeout(() => toast.remove(), 300);
-    }, 2800);
+.levels-panel {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1a1736, #12102a);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    padding: 34px 30px 28px;
+    box-shadow: 0 0 70px rgba(168, 85, 247, 0.4);
+    animation: modalAppear 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 
-function animateNumber(element, target) {
-    const start = Number(element.textContent) || 0;
+.levels-panel h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
 
-    if (start === target || reduceMotion.matches) {
-        element.textContent = target;
-        return;
+.levels-current {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px;
+    margin-bottom: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.levels-current-emoji {
+    font-size: 54px;
+    animation: bounce 0.6s ease;
+}
+
+.levels-current-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.levels-current-info strong {
+    font-size: 20px;
+}
+
+.levels-current-info .xp-bar {
+    height: 10px;
+}
+
+.levels-current-info p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.levels-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.level-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.level-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--purple);
+}
+
+.level-card.current {
+    border-color: var(--cyan);
+    background: rgba(34, 211, 238, 0.08);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+}
+
+.level-card-emoji {
+    font-size: 34px;
+}
+
+.level-card.locked .level-card-emoji {
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
+.level-card-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.level-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.level-card-top strong {
+    font-size: 16px;
+}
+
+.level-card-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.level-card.unlocked .level-card-tag {
+    color: var(--lime);
+}
+
+.level-card.current .level-card-tag {
+    color: var(--cyan);
+}
+
+.level-card-info p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .levels-panel {
+        max-width: 100%;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+        padding: 30px 20px 22px;
     }
 
-    const duration = 600;
-    const startTime = performance.now();
-
-    function frame(now) {
-        const t = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - t, 3);
-
-        element.textContent = Math.round(start + (target - start) * eased);
-
-        if (t < 1) requestAnimationFrame(frame);
+    .levels-panel h2 {
+        font-size: 25px;
     }
 
-    requestAnimationFrame(frame);
-}
-
-function syncScrollLock() {
-    const anyOpen = document.querySelector(".modal-overlay.show");
-    document.body.classList.toggle("modal-open", Boolean(anyOpen));
-}
-
-/* ---------- confetti ---------- */
-
-const confettiCanvas = el("confetti");
-const confettiCtx = confettiCanvas.getContext("2d");
-
-let confettiPieces = [];
-let confettiRunning = false;
-
-function launchConfetti() {
-    if (reduceMotion.matches) return;
-
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
-
-    const colors = ["#a855f7", "#22d3ee", "#a3e635", "#f472b6", "#fb923c", "#ffffff"];
-
-    for (let i = 0; i < 150; i++) {
-        confettiPieces.push({
-            x: window.innerWidth / 2 + (Math.random() - 0.5) * 240,
-            y: window.innerHeight * 0.45,
-            vx: (Math.random() - 0.5) * 18,
-            vy: Math.random() * -17 - 4,
-            size: 6 + Math.random() * 7,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            rotation: Math.random() * 360,
-            spin: (Math.random() - 0.5) * 14,
-            life: 0
-        });
-    }
-
-    if (!confettiRunning) {
-        confettiRunning = true;
-        requestAnimationFrame(confettiFrame);
+    .levels-current-emoji {
+        font-size: 44px;
     }
 }
-
-function confettiFrame() {
-    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-
-    confettiPieces = confettiPieces.filter(
-        piece => piece.y < confettiCanvas.height + 40 && piece.life < 260
-    );
-
-    confettiPieces.forEach(piece => {
-        piece.vy += 0.4;
-        piece.vx *= 0.99;
-        piece.x += piece.vx;
-        piece.y += piece.vy;
-        piece.rotation += piece.spin;
-        piece.life++;
-
-        confettiCtx.save();
-        confettiCtx.translate(piece.x, piece.y);
-        confettiCtx.rotate((piece.rotation * Math.PI) / 180);
-        confettiCtx.fillStyle = piece.color;
-        confettiCtx.fillRect(-piece.size / 2, -piece.size / 4, piece.size, piece.size / 2);
-        confettiCtx.restore();
-    });
-
-    if (confettiPieces.length > 0) {
-        requestAnimationFrame(confettiFrame);
-    } else {
-        confettiRunning = false;
-        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-    }
-}
-
-/* =========================================================
-   BOOK GRID
-========================================================= */
-
-function getCover(book) {
-    return `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`;
-}
-
-function displayBooks(animate = true) {
-    const grid = el("bookGrid");
-    const search = el("searchInput").value.toLowerCase().trim();
-
-    grid.innerHTML = "";
-
-    const filteredBooks = books.filter(book => {
-        const matchesSearch =
-            book.title.toLowerCase().includes(search) ||
-            book.author.toLowerCase().includes(search);
-
-        const matchesCategory =
-            selectedCategory === "All" ||
-            book.category === selectedCategory;
-
-        return matchesSearch && matchesCategory;
-    });
-
-    filteredBooks.forEach((book, index) => {
-        const borrowedNow = isBorrowed(book.id);
-        const loan = loans[book.id];
-
-        const card = document.createElement("div");
-        card.className = "book-card" + (animate ? " pop" : "");
-        card.style.setProperty("--i", Math.min(index, 12));
-        card.tabIndex = 0;
-        card.setAttribute("role", "button");
-        card.setAttribute("aria-label", `${book.title} by ${book.author}`);
-
-        card.innerHTML = `
-            <div class="book-cover">
-                <span class="status ${borrowedNow ? "out" : "in"}">
-                    ${borrowedNow ? "Borrowed" : "Available"}
-                </span>
-                <img
-                    src="${getCover(book)}"
-                    alt="${book.title} book cover"
-                    loading="lazy"
-                >
-            </div>
-            <div class="book-info">
-                <h3>${book.title}</h3>
-                <p class="author">By ${book.author}</p>
-                <p class="book-category">${book.category}</p>
-                ${borrowedNow ? `<p class="due">⏰ Due ${formatDate(loan.dueDate)}</p>` : ""}
-                <button class="borrow-btn ${borrowedNow ? "return" : ""}">
-                    ${borrowedNow ? "Return Book" : "Borrow Book"}
-                </button>
-            </div>
-        `;
-
-        card.addEventListener("click", () => {
-            openBookDetails(book.id);
-        });
-
-        card.addEventListener("keydown", event => {
-            if (event.key === "Enter" && event.target === card) {
-                openBookDetails(book.id);
-            }
-        });
-
-        card.querySelector(".borrow-btn").addEventListener("click", event => {
-            event.stopPropagation();
-
-            if (isBorrowed(book.id)) {
-                returnBook(book.id);
-            } else {
-                openBorrow(book.id);
-            }
-        });
-
-        const coverImage = card.querySelector("img");
-
-        coverImage.addEventListener("error", () => {
-            coverImage.style.display = "none";
-            coverImage.parentElement.classList.add("cover-unavailable");
-            coverImage.insertAdjacentText("afterend", "Cover unavailable");
-        }, { once: true });
-
-        grid.appendChild(card);
-    });
-
-    el("emptyMessage").style.display =
-        filteredBooks.length === 0 ? "block" : "none";
-
-    updateStats();
-}
-
-function updateStats() {
-    animateNumber(el("totalBooks"), books.length);
-    animateNumber(el("borrowedBooks"), borrowedCount());
-    animateNumber(el("availableBooks"), books.length - borrowedCount());
-}
-
-/* =========================================================
-   BOOK DETAILS POPUP
-========================================================= */
-
-function openBookDetails(id) {
-    selectedBook = books.find(book => book.id === id);
-    if (!selectedBook) return;
-
-    const modalImage = el("modalImage");
-
-    el("modalTitle").textContent = selectedBook.title;
-    el("modalAuthor").textContent = "By " + selectedBook.author;
-    el("modalCategory").textContent = selectedBook.category;
-    el("modalDescription").textContent = selectedBook.description;
-
-    modalImage.style.display = "block";
-    modalImage.src = getCover(selectedBook);
-    modalImage.alt = selectedBook.title + " book cover";
-
-    modalImage.onerror = () => {
-        modalImage.style.display = "none";
-    };
-
-    updateModalButton();
-
-    bookModal.classList.add("show");
-    syncScrollLock();
-}
-
-function closeBookDetails() {
-    bookModal.classList.remove("show");
-    selectedBook = null;
-    syncScrollLock();
-}
-
-function updateModalButton() {
-    if (!selectedBook) return;
-
-    const button = el("modalBorrow");
-    const borrowedNow = isBorrowed(selectedBook.id);
-
-    button.textContent = borrowedNow ? "Return Book" : "Borrow Book";
-    button.classList.toggle("return", borrowedNow);
-}
-
-/* =========================================================
-   RETURN A BOOK
-========================================================= */
-
-function returnBook(id) {
-    const loan = loans[id];
-    const book = books.find(b => b.id === id);
-
-    if (!loan || !book) return;
-
-    const onTime = Date.now() <= (
-        Number(loan.dueAt) ||
-        new Date(loan.dueDate + "T23:59:59").getTime()
-    );
-
-    delete loans[id];
-    writeStorage(KEYS.loans, loans);
-
-    let message = `📚 "${book.title}" returned. Thanks!`;
-
-    if (onTime) {
-        const levelUp = addXp(XP_RETURN);
-        message = `✅ Returned on time! +${XP_RETURN} XP`;
-
-        if (levelUp) {
-            message += ` · Level up: ${levelUp.name} ${levelUp.emoji}`;
-            launchConfetti();
-        }
-    } else {
-        const previousLevel = getLevelIndex(xp);
-
-        addXp(-LATE_RETURN_PENALTY);
-
-        message = `⏰ Late return: -${LATE_RETURN_PENALTY} XP`;
-
-        if (getLevelIndex(xp) < previousLevel) {
-            message += " · Your level decreased";
-        }
-    }
-
-    showToast(message);
-    displayBooks(false);
-    updateModalButton();
-}
-
-/* =========================================================
-   BORROW WIZARD (5 small steps)
-========================================================= */
-
-function setReturnDays(days) {
-    selectedDueAt = null;
-    fieldDate.value = toISO(addDays(new Date(), days));
-    syncChips();
-}
-
-function setReturnSeconds(seconds) {
-    selectedDueAt = -seconds;
-    fieldDate.value = toISO(new Date());
-    syncChips();
-}
-
-function syncChips() {
-    chips.forEach(chip => {
-        const isTestChoice = chip.dataset.seconds && selectedDueAt !== null;
-
-        const target = chip.dataset.days
-            ? toISO(addDays(new Date(), Number(chip.dataset.days)))
-            : null;
-
-        chip.classList.toggle(
-            "active",
-            Boolean(isTestChoice || (!selectedDueAt && target && fieldDate.value === target))
-        );
-    });
-}
-
-function clearErrors() {
-    steps.forEach(step => {
-        step.querySelector(".field-error").textContent = "";
-
-        const input = step.querySelector(".field");
-
-        input.removeAttribute("aria-invalid");
-        input.classList.remove("shake");
-    });
-}
-
-function showStep(n) {
-    wizardStep = n;
-
-    steps.forEach(step => {
-        step.classList.toggle("active", Number(step.dataset.step) === n);
-    });
-
-    el("progressBar").style.width = (n / TOTAL_STEPS) * 100 + "%";
-    el("stepLabel").textContent = `Step ${n} of ${TOTAL_STEPS}`;
-    el("backBtn").style.visibility = n === 1 ? "hidden" : "visible";
-    el("nextBtn").textContent = n === TOTAL_STEPS ? "Borrow it! 🚀" : "Next →";
-
-    const textInput = steps[n - 1].querySelector("input[type='text']");
-
-    if (textInput) {
-        setTimeout(() => textInput.focus({ preventScroll: true }), 60);
-    }
-}
-
-function openBorrow(id) {
-    const book = books.find(b => b.id === id);
-
-    if (!book || isBorrowed(id)) return;
-
-    if (bookModal.classList.contains("show")) {
-        closeBookDetails();
-    }
-
-    wizardBook = book;
-
-    fieldName.value = String(profile.name || "").slice(0, 40);
-    fieldId.value = String(profile.studentId || "").slice(0, 15);
-    fieldContact.value = String(profile.contact || "").slice(0, 60);
-
-    setReturnDays(7);
-
-    fieldCardNumber.value = "4242 4242 4242 4242";
-    fieldCardExpiry.value = "12/30";
-    fieldCardCvv.value = "123";
-
-    renderBorrowPrice();
-
-    el("step2Title").textContent = "Your student ID?";
-    el("wizardBookTitle").textContent = book.title;
-
-    clearErrors();
-
-    el("successScreen").hidden = true;
-    el("wizardTop").hidden = false;
-    borrowForm.hidden = false;
-
-    borrowModal.classList.add("show");
-    syncScrollLock();
-
-    showStep(1);
-}
-
-function closeBorrow() {
-    borrowModal.classList.remove("show");
-    wizardBook = null;
-    syncScrollLock();
-}
-
-function validateStep(n) {
-    if (n === 1) {
-        const value = fieldName.value.trim();
-
-        if (!/^\p{L}[\p{L}\s.'-]{1,39}$/u.test(value)) {
-            return {
-                input: fieldName,
-                message: "Tell us your name (at least 2 letters) 🙂"
-            };
-        }
-    }
-
-    if (n === 2) {
-        const value = fieldId.value.trim();
-
-        if (!/^[A-Za-z0-9-]{3,15}$/.test(value)) {
-            return {
-                input: fieldId,
-                message: "3 to 15 letters or numbers, no spaces 🪪"
-            };
-        }
-    }
-
-    if (n === 3) {
-        const value = fieldContact.value.trim();
-
-        const looksLikeEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
-
-        const looksLikePhone =
-            /^\+?[\d\s()-]{7,20}$/.test(value) &&
-            value.replace(/\D/g, "").length >= 7;
-
-        if (!looksLikeEmail && !looksLikePhone) {
-            return {
-                input: fieldContact,
-                message: "Enter a valid email or phone number 📬"
-            };
-        }
-    }
-
-    if (n === 4 && selectedDueAt === null) {
-        const value = fieldDate.value;
-        const tomorrow = toISO(addDays(new Date(), 1));
-        const latest = toISO(addDays(new Date(), MAX_LOAN_DAYS));
-
-        if (!ISO_PATTERN.test(value) || value < tomorrow || value > latest) {
-            return {
-                input: fieldDate,
-                message: `Pick a date within the next ${MAX_LOAN_DAYS} days, or choose the 1-second test option 📅`
-            };
-        }
-    }
-
-    if (n === 5) {
-        const number = fieldCardNumber.value.replace(/\s/g, "");
-
-        if (number !== DEMO_CARD_NUMBER) {
-            return {
-                input: fieldCardNumber,
-                message: "Use the demo number shown above. Real card details are not accepted."
-            };
-        }
-
-        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(fieldCardExpiry.value.trim())) {
-            return {
-                input: fieldCardExpiry,
-                message: "Use the demo expiry format MM/YY."
-            };
-        }
-
-        if (!/^\d{3}$/.test(fieldCardCvv.value.trim())) {
-            return {
-                input: fieldCardCvv,
-                message: "Enter the 3-digit demo CVV."
-            };
-        }
-    }
-
-    return null;
-}
-
-function showFieldError(problem) {
-    const errorLine = problem.input.closest(".step").querySelector(".field-error");
-
-    errorLine.textContent = problem.message;
-
-    problem.input.setAttribute("aria-invalid", "true");
-    problem.input.classList.remove("shake");
-
-    void problem.input.offsetWidth;
-
-    problem.input.classList.add("shake");
-
-    if (problem.input.type === "text") {
-        problem.input.focus({ preventScroll: true });
-    }
-}
-
-function finishBorrow() {
-    const book = wizardBook;
-
-    if (!book || isBorrowed(book.id)) return;
-
-    const price = renderBorrowPrice();
-
-    const loan = {
-        name: fieldName.value.trim(),
-        studentId: fieldId.value.trim(),
-        contact: fieldContact.value.trim(),
-        borrowedAt: toISO(new Date()),
-
-        dueDate: selectedDueAt !== null
-            ? toISO(new Date(
-                selectedDueAt < 0
-                    ? Date.now() + Math.abs(selectedDueAt) * 1000
-                    : selectedDueAt
-            ))
-            : fieldDate.value,
-
-        dueAt: selectedDueAt !== null
-            ? (
-                selectedDueAt < 0
-                    ? Date.now() + Math.abs(selectedDueAt) * 1000
-                    : selectedDueAt
-            )
-            : new Date(fieldDate.value + "T23:59:59").getTime(),
-
-        discountPercent: price.discountPercent,
-        basePrice: BASE_BORROW_PRICE,
-        amountSaved: price.savings,
-        finalPrice: price.finalPrice,
-        membershipLevel: price.levelName
-    };
-
-    loans[book.id] = loan;
-    writeStorage(KEYS.loans, loans);
-
-    profile = {
-        name: loan.name,
-        studentId: loan.studentId,
-        contact: loan.contact
-    };
-
-    writeStorage(KEYS.profile, profile);
-
-    const levelUp = addXp(XP_BORROW);
-
-    displayBooks(false);
-    showSuccess(book, loan, levelUp);
-    launchConfetti();
-}
-
-function showSuccess(book, loan, levelUp) {
-    el("wizardTop").hidden = true;
-    borrowForm.hidden = true;
-
-    el("successBook").textContent =
-        `"${book.title}" is yours, ${loan.name.split(/\s+/)[0]}!`;
-
-    const dueLabel = selectedDueAt !== null
-        ? new Date(loan.dueAt).toLocaleString()
-        : formatDate(loan.dueDate);
-
-    el("successDue").textContent = `Bring it back by ${dueLabel} 📅`;
-    el("successXp").textContent = `+${XP_BORROW} XP ⚡`;
-
-    el("successDiscount").textContent =
-        `${loan.membershipLevel || "Your level"} discount: ${loan.discountPercent}%`;
-
-    el("successPrice").textContent =
-        `Base: ${(loan.basePrice || BASE_BORROW_PRICE).toLocaleString("en-US")} AMD · Saved: ${(loan.amountSaved || 0).toLocaleString("en-US")} AMD · Paid: ${(loan.finalPrice ?? BASE_BORROW_PRICE - Math.round(BASE_BORROW_PRICE * (loan.discountPercent || 0) / 100)).toLocaleString("en-US")} AMD`;
-
-    const levelLine = el("successLevel");
-
-    if (levelUp) {
-        levelLine.textContent =
-            `🎊 Level up! You're now a ${levelUp.name} ${levelUp.emoji}`;
-
-        levelLine.hidden = false;
-    } else {
-        levelLine.hidden = true;
-    }
-
-    el("successScreen").hidden = false;
-}
-
-/* ---------- wizard events ---------- */
-
-borrowForm.addEventListener("submit", event => {
-    event.preventDefault();
-
-    const problem = validateStep(wizardStep);
-
-    if (problem) {
-        showFieldError(problem);
-        return;
-    }
-
-    if (wizardStep < TOTAL_STEPS) {
-        if (wizardStep === 1) {
-            const firstName = fieldName.value.trim().split(/\s+/)[0];
-            el("step2Title").textContent = `Nice, ${firstName}! Student ID?`;
-        }
-
-        showStep(wizardStep + 1);
-    } else {
-        finishBorrow();
-    }
-});
-
-borrowForm.addEventListener("input", event => {
-    const input = event.target;
-
-    if (!input.classList.contains("field")) return;
-
-    input.removeAttribute("aria-invalid");
-    input.closest(".step").querySelector(".field-error").textContent = "";
-
-    if (input === fieldDate) {
-        selectedDueAt = null;
-        syncChips();
-    }
-});
-
-chips.forEach(chip => {
-    chip.addEventListener("click", () => {
-        if (chip.dataset.seconds) {
-            setReturnSeconds(Number(chip.dataset.seconds));
-        } else {
-            setReturnDays(Number(chip.dataset.days));
-        }
-
-        clearErrors();
-    });
-});
-
-el("backBtn").addEventListener("click", () => {
-    if (wizardStep > 1) showStep(wizardStep - 1);
-});
-
-el("closeBorrow").addEventListener("click", closeBorrow);
-el("doneBtn").addEventListener("click", closeBorrow);
-
-/* =========================================================
-   OTHER EVENTS
-========================================================= */
-
-el("searchInput").addEventListener("input", () => displayBooks(true));
-
-document.querySelectorAll(".category").forEach(button => {
-    button.addEventListener("click", () => {
-        document.querySelector(".category.active").classList.remove("active");
-
-        button.classList.add("active");
-        selectedCategory = button.dataset.category;
-
-        displayBooks(true);
-    });
-});
-
-document.querySelectorAll(".surprise-btn").forEach(button => {
-    button.addEventListener("click", () => {
-        const available = books.filter(book => !isBorrowed(book.id));
-
-        if (available.length === 0) {
-            showToast("😮 Every book is borrowed right now!");
-            return;
-        }
-
-        const pick = available[Math.floor(Math.random() * available.length)];
-
-        showToast("🎲 How about this one?");
-        openBookDetails(pick.id);
-    });
-});
-
-el("closeModal").addEventListener("click", closeBookDetails);
-
-bookModal.addEventListener("click", event => {
-    if (event.target === bookModal) {
-        closeBookDetails();
-    }
-});
-
-el("modalBorrow").addEventListener("click", () => {
-    if (!selectedBook) return;
-
-    const id = selectedBook.id;
-
-    if (isBorrowed(id)) {
-        returnBook(id);
-    } else {
-        openBorrow(id);
-    }
-});
-
-document.addEventListener("keydown", event => {
-    if (event.key !== "Escape") return;
-
-    if (borrowModal.classList.contains("show")) {
-        closeBorrow();
-    } else if (bookModal.classList.contains("show")) {
-        closeBookDetails();
-    }
-});
-
-/* =========================================================
-   START
-========================================================= */
-
-fieldDate.min = toISO(addDays(new Date(), 1));
-fieldDate.max = toISO(addDays(new Date(), MAX_LOAN_DAYS));
-
-updateXpPill();
-displayBooks(true);
