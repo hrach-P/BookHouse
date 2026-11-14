@@ -14,7 +14,7 @@
     <header class="header">
         <a href="#home" class="logo">Book<span>House.</span></a>
         <nav><a href="#home">Home</a><a href="#library">Library</a><a href="#about">How it works</a></nav>
-        <div class="xp-pill" title="Borrow and return books to earn XP!">
+        <div class="xp-pill" role="button" tabindex="0" aria-label="Open levels" title="Borrow and return books to earn XP!">
             <span class="xp-emoji" id="levelEmoji">🌱</span>
             <div class="xp-info"><span class="xp-level" id="levelName">Newcomer</span><div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div></div>
             <span class="xp-text" id="xpText">0 / 100 XP</span>
@@ -38,7 +38,12 @@
         <div class="section-heading"><p class="eyebrow">EXPLORE OUR COLLECTION</p><h2>Find Your Next Read.</h2><p>Books for every mind and every mood.</p></div>
         <div class="search-container"><input type="text" id="searchInput" placeholder="🔎 Search books or authors..." autocomplete="off"><button type="button" class="surprise-btn surprise-small" aria-label="Surprise me with a random book">🎲</button></div>
         <div class="categories">
-            <button class="category active" data-category="All">📚 All</button><button class="category" data-category="Fantasy">🧙 Fantasy</button><button class="category" data-category="Fiction">🎭 Fiction</button><button class="category" data-category="Mystery">🔍 Mystery</button><button class="category" data-category="Science">🚀 Science</button>
+            <button class="category active" data-category="All">📚 All</button>
+            <button class="category" data-category="Fantasy">🧙 Fantasy</button>
+            <button class="category" data-category="Fiction">🎭 Fiction</button>
+            <button class="category" data-category="Mystery">🔍 Mystery</button>
+            <button class="category" data-category="Science">🚀 Science</button>
+            <button class="category" data-category="Light Novels">📘 Light Novels</button>
         </div>
         <div class="book-grid" id="bookGrid"></div>
         <p class="empty-message" id="emptyMessage">😅 No books found. Try another search.</p>
@@ -47,7 +52,7 @@
         <div class="modal-content">
             <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
             <div class="modal-book-image"><img id="modalImage" src="" alt="Book cover"></div>
-            <div class="modal-book-info"><p class="eyebrow" id="modalCategory">CATEGORY</p><h2 id="modalTitle">Book Title</h2><p class="modal-author" id="modalAuthor">Author</p><div class="modal-divider"></div><h3>About this book</h3><p class="modal-description" id="modalDescription"></p><button class="borrow-btn modal-borrow" id="modalBorrow">Borrow Book</button></div>
+            <div class="modal-book-info"><p class="eyebrow" id="modalCategory">CATEGORY</p><h2 id="modalTitle">Book Title</h2><p class="modal-author" id="modalAuthor">Author</p><p class="modal-stock" id="modalStock"></p><div class="modal-divider"></div><h3>About this book</h3><p class="modal-description" id="modalDescription"></p><button class="borrow-btn modal-borrow" id="modalBorrow">Borrow Book</button></div>
         </div>
     </div>
     <div class="modal-overlay" id="borrowModal">
@@ -75,6 +80,22 @@
                 <div class="wizard-actions"><button type="button" class="btn-ghost" id="backBtn">← Back</button><button type="submit" class="btn-primary" id="nextBtn">Next →</button></div>
             </form>
             <div class="success" id="successScreen" hidden><div class="success-emoji">🎉</div><h2>Book reserved!</h2><p class="success-book" id="successBook"></p><p class="success-due" id="successDue"></p><p class="success-xp" id="successXp"></p><p class="success-discount" id="successDiscount"></p><p class="success-price" id="successPrice"></p><p class="success-level" id="successLevel" hidden></p><button type="button" class="btn-primary" id="doneBtn">Keep exploring →</button></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="levelsModal">
+        <div class="levels-panel" role="dialog" aria-modal="true" aria-labelledby="levelsTitle">
+            <button class="modal-close" id="closeLevels" aria-label="Close">&times;</button>
+            <p class="eyebrow">YOUR PROGRESS</p>
+            <h2 id="levelsTitle">Levels</h2>
+            <div class="levels-current">
+                <span class="levels-current-emoji" id="levelsCurrentEmoji">🌱</span>
+                <div class="levels-current-info">
+                    <strong id="levelsCurrentName">Newcomer</strong>
+                    <div class="xp-bar"><div class="xp-fill" id="levelsXpFill"></div></div>
+                    <p id="levelsXpText"></p>
+                </div>
+            </div>
+            <div class="levels-list" id="levelsList"></div>
         </div>
     </div>
     <section class="about" id="about"><p class="eyebrow">HOW IT WORKS</p><h2>Borrowing in 3 quick steps.</h2><div class="steps-row"><div class="how-card"><span class="how-number">1</span><h3>📖 Pick a book</h3><p>Search, filter or hit Surprise Me.</p></div><div class="how-card"><span class="how-number">2</span><h3>✍️ Answer 5 questions</h3><p>One tiny question at a time.</p></div><div class="how-card"><span class="how-number">3</span><h3>⚡ Earn XP</h3><p>Level up and unlock borrowing discounts.</p></div></div></section>
